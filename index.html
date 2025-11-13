@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PizzaHub - Online Food Ordering System</title>
+    <meta
+      name="description"
+      content="Order delicious pizzas online with real-time tracking, loyalty rewards, and easy checkout. PizzaHub delivers fresh food to your door."
+    />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito+Sans:wght@300;400;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+      html,
+      body {
+        color: hsl(210, 10%, 16%);
+        background-color: hsl(36, 33%, 96%);
+      }
+
+      * {
+        transition: all 150ms ease-in-out;
+      }
+
+      *:focus-visible {
+        outline: 1.5px solid hsl(3, 82%, 54%);
+        outline-offset: 2px;
+      }
+    </style>
+    <link rel="stylesheet" href="globals.css" />
+  </head>
+  <body
+    class="font-body text-body text-neutral-foreground bg-neutral min-h-screen"
+  >
+    <!-- Login Screen -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+      <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-8">
+        <div class="text-center mb-8">
+          <div class="mb-4 flex justify-center">
+            <img id="login-logo" src="" alt="PizzaHub Logo" class="h-24 w-24 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="text-6xl hidden">🍕</div>
+          </div>
+          <h1 class="text-h1 font-sans font-bold text-primary mb-2">Pizza Hub</h1>
+          <p class="text-gray-600">Welcome back! Please login to continue</p>
+        </div>
+
+        <form id="login-form" class="space-y-6">
+          <div>
+            <label for="login-email" class="block text-label font-medium text-neutral-foreground mb-2">Email</label>
+            <input
+              type="email"
+              id="login-email"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div>
+            <label for="login-password" class="block text-label font-medium text-neutral-foreground mb-2">Password</label>
+            <input
+              type="password"
+              id="login-password"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <div>
+            <label for="user-role" class="block text-label font-medium text-neutral-foreground mb-2">Login As</label>
+            <select
+              id="user-role"
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+            >
+              <option value="customer">Customer</option>
+              <option value="staff">Staff</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3 rounded bg-primary text-primary-foreground font-medium text-body cursor-pointer border-none hover:bg-primary-hover"
+          >
+            Login
+          </button>
+        </form>
+
+        <div class="mt-6 text-center">
+          <p class="text-gray-600 mb-4">Don't have an account?</p>
+          <button
+            onclick="showRegisterScreen()"
+            class="text-primary font-medium hover:underline bg-transparent border-none cursor-pointer"
+          >
+            Register Now
+          </button>
+        </div>
+
+        <div class="mt-8 p-4 bg-neutral rounded-lg">
+          <p class="text-label font-semibold text-neutral-foreground mb-2">Demo Accounts:</p>
+          <p class="text-label text-gray-600">Customer: customer@pizza.com / pass123</p>
+          <p class="text-label text-gray-600">Staff: staff@pizza.com / pass123</p>
+          <p class="text-label text-gray-600">Admin: admin@pizza.com / pass123</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register Screen -->
+    <div id="register-screen" class="hidden min-h-screen flex items-center justify-center p-4">
+      <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-8">
+        <div class="text-center mb-8">
+          <div class="mb-4 flex justify-center">
+            <img id="register-logo" src="" alt="PizzaHub Logo" class="h-24 w-24 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="text-6xl hidden">🍕</div>
+          </div>
+          <h1 class="text-h1 font-sans font-bold text-primary mb-2">PizzaHub</h1>
+          <p class="text-gray-600">Create your account</p>
+        </div>
+
+        <form id="register-form" class="space-y-4">
+          <div>
+            <label for="register-name" class="block text-label font-medium text-neutral-foreground mb-2">Full Name</label>
+            <input
+              type="text"
+              id="register-name"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+              placeholder="Enter your full name"
+            />
+          </div>
+
+          <div>
+            <label for="register-email" class="block text-label font-medium text-neutral-foreground mb-2">Email</label>
+            <input
+              type="email"
+              id="register-email"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div>
+            <label for="register-phone" class="block text-label font-medium text-neutral-foreground mb-2">Phone Number</label>
+            <input
+              type="tel"
+              id="register-phone"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+              placeholder="Enter your phone number"
+            />
+          </div>
+
+          <div>
+            <label for="register-address" class="block text-label font-medium text-neutral-foreground mb-2">Delivery Address</label>
+            <textarea
+              id="register-address"
+              required
+              rows="2"
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+              placeholder="Enter your delivery address"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="register-password" class="block text-label font-medium text-neutral-foreground mb-2">Password</label>
+            <input
+              type="password"
+              id="register-password"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+              placeholder="Create a password"
+            />
+          </div>
+
+          <div>
+            <label for="register-confirm-password" class="block text-label font-medium text-neutral-foreground mb-2">Confirm Password</label>
+            <input
+              type="password"
+              id="register-confirm-password"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded text-neutral-foreground focus:border-primary"
+              placeholder="Confirm your password"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3 rounded bg-primary text-primary-foreground font-medium text-body cursor-pointer border-none hover:bg-primary-hover"
+          >
+            Register
+          </button>
+        </form>
+
+        <div class="mt-6 text-center">
+          <button
+            onclick="showLoginScreen()"
+            class="text-primary font-medium hover:underline bg-transparent border-none cursor-pointer"
+          >
+            Back to Login
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Shell -->
+    <div id="app-shell" class="hidden flex h-screen overflow-hidden">
+      <!-- Sidebar - Desktop -->
+      <aside
+        id="sidebar"
+        class="hidden lg:flex lg:flex-col lg:w-64 bg-primary text-primary-foreground border-r border-gray-200"
+      >
+        <div class="p-8 border-b border-primary-hover">
+          <div class="flex items-center gap-3">
+            <img id="sidebar-logo" src="" alt="Logo" class="h-10 w-10 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+            <span class="text-2xl hidden">🍕</span>
+            <h1 class="text-h3 font-sans font-semibold text-primary-foreground">
+              Pizza Hub
+            </h1>
+          </div>
+        </div>
+
+        <nav class="flex-1 p-4 space-y-2" aria-label="Main navigation" id="main-nav">
+          <!-- Navigation will be populated based on user role -->
+        </nav>
+
+        <div class="p-4 border-t border-primary-hover space-y-2">
+          <div class="flex items-center gap-3 px-4 py-3">
+            <div
+              class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground font-semibold"
+              id="user-avatar"
+            >
+              JD
+            </div>
+            <div>
+              <p class="font-medium text-primary-foreground" id="user-name">John Doe</p>
+              <p class="text-label text-primary-foreground opacity-80" id="user-role-display">Customer</p>
+            </div>
+          </div>
+          <button
+            onclick="logout()"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded text-primary-foreground hover:bg-primary-hover bg-transparent border-none cursor-pointer"
+          >
+            <span class="text-xl">🚪</span>
+            <span class="font-medium">Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Top Bar -->
+        <header
+          class="bg-primary text-primary-foreground border-b border-primary-hover px-8 py-4 flex items-center justify-between"
+        >
+          <button
+            id="mobile-menu-toggle"
+            class="lg:hidden text-2xl bg-transparent border-none text-primary-foreground cursor-pointer"
+            aria-label="Toggle mobile menu"
+          >
+            ☰
+          </button>
+          <h2
+            id="page-title"
+            class="text-h3 font-sans font-medium text-primary-foreground"
+          >
+            Browse Menu
+          </h2>
+          <div class="flex items-center gap-4">
+            <div class="hidden md:flex items-center gap-2 bg-primary-hover px-4 py-2 rounded">
+              <span class="text-xl">⭐</span>
+              <span id="header-loyalty-points" class="font-semibold">0</span>
+              <span class="text-label">pts</span>
+            </div>
+            <button
+              id="cart-toggle"
+              class="relative bg-transparent border-none text-primary-foreground cursor-pointer text-xl"
+              aria-label="Shopping cart"
+            >
+              🛒
+              <span
+                id="cart-count"
+                class="absolute -top-1 -right-1 bg-secondary text-secondary-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                >0</span
+              >
+            </button>
+          </div>
+        </header>
+
+        <!-- Main View -->
+        <main class="flex-1 overflow-y-auto p-8" id="main-content">
+          <!-- Content will be loaded dynamically -->
+        </main>
+      </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav
+      id="mobile-nav"
+      class="hidden lg:hidden fixed bottom-0 left-0 right-0 bg-primary text-primary-foreground border-t border-primary-hover flex justify-around py-3 z-50"
+      aria-label="Mobile navigation"
+    >
+      <!-- Navigation will be populated based on user role -->
+    </nav>
+
+    <!-- Item Customization Modal -->
+    <div
+      id="item-modal"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div
+        class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+      >
+        <div class="p-8">
+          <div class="flex justify-between items-start mb-6">
+            <h3
+              id="modal-title"
+              class="text-h2 font-sans font-semibold text-neutral-foreground"
+            ></h3>
+            <button
+              onclick="closeItemModal()"
+              class="text-2xl text-gray-600 hover:text-neutral-foreground bg-transparent border-none cursor-pointer"
+              aria-label="Close modal"
+            >
+              ×
+            </button>
+          </div>
+
+          <img
+            id="modal-image"
+            src=""
+            alt=""
+            class="w-full h-64 object-cover rounded-lg mb-6"
+          />
+
+          <p id="modal-description" class="text-gray-600 mb-6 leading-body"></p>
+
+          <div class="mb-6">
+            <h4 class="font-semibold text-neutral-foreground mb-3">Size</h4>
+            <div class="space-y-2">
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="size"
+                  value="small"
+                  data-price="0"
+                  class="w-4 h-4"
+                  checked
+                />
+                <span class="text-neutral-foreground">Small - ₱0.00</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="size"
+                  value="medium"
+                  data-price="50"
+                  class="w-4 h-4"
+                />
+                <span class="text-neutral-foreground">Medium - ₱50.00</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="radio" name="size" value="large" data-price="100" class="w-4 h-4" />
+                <span class="text-neutral-foreground">Large - ₱100.00</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <h4 class="font-semibold text-neutral-foreground mb-3">Add-ons</h4>
+            <div class="space-y-2">
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" class="w-4 h-4" data-addon="Extra Cheese" data-price="30" />
+                <span class="text-neutral-foreground">Extra Cheese - ₱30.00</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" class="w-4 h-4" data-addon="Mushrooms" data-price="40" />
+                <span class="text-neutral-foreground">Mushrooms - ₱40.00</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" class="w-4 h-4" data-addon="Olives" data-price="35" />
+                <span class="text-neutral-foreground">Olives - ₱35.00</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" class="w-4 h-4" data-addon="Pepperoni" data-price="50" />
+                <span class="text-neutral-foreground">Extra Pepperoni - ₱50.00</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label
+              for="special-instructions"
+              class="block font-semibold text-neutral-foreground mb-3"
+              >Special Instructions</label
+            >
+            <textarea
+              id="special-instructions"
+              rows="3"
+              class="w-full px-4 py-2 border border-gray-300 rounded text-neutral-foreground"
+              placeholder="Any special requests?"
+            ></textarea>
+          </div>
+
+          <div class="flex justify-between items-center mb-6">
+            <span class="text-h3 font-semibold text-neutral-foreground">Total:</span>
+            <span id="modal-price" class="text-h2 font-bold text-primary"></span>
+          </div>
+
+          <button
+            onclick="addToCart()"
+            class="w-full py-4 rounded bg-primary text-primary-foreground font-normal text-body cursor-pointer border-none hover:bg-primary-hover"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div
+      id="cart-drawer"
+      class="hidden fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-lg z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-title"
+    >
+      <div class="p-8">
+        <div class="flex justify-between items-center mb-6">
+          <h3
+            id="cart-title"
+            class="text-h2 font-sans font-semibold text-neutral-foreground"
+          >
+            Your Cart
+          </h3>
+          <button
+            onclick="closeCart()"
+            class="text-2xl text-gray-600 hover:text-neutral-foreground bg-transparent border-none cursor-pointer"
+            aria-label="Close cart"
+          >
+            ×
+          </button>
+        </div>
+
+        <div id="cart-items" class="space-y-4 mb-6">
+          <p class="text-gray-600 text-center py-8">Your cart is empty</p>
+        </div>
+
+        <div class="border-t border-gray-200 pt-6 space-y-4">
+          <div class="flex justify-between text-neutral-foreground">
+            <span>Subtotal:</span>
+            <span id="cart-subtotal">₱0.00</span>
+          </div>
+
+          <div>
+            <label class="block text-label font-medium text-neutral-foreground mb-2">Delivery Zone</label>
+            <select
+              id="delivery-zone"
+              class="w-full px-4 py-2 border border-gray-300 rounded text-neutral-foreground"
+              onchange="updateDeliveryFee()"
+            >
+              <option value="zone1" data-fee="50" data-time="20-30">Zone 1 - ₱50 (20-30 min)</option>
+              <option value="zone2" data-fee="80" data-time="30-40">Zone 2 - ₱80 (30-40 min)</option>
+              <option value="zone3" data-fee="120" data-time="40-60">Zone 3 - ₱120 (40-60 min)</option>
+            </select>
+          </div>
+
+          <div class="flex justify-between text-neutral-foreground">
+            <span>Delivery Fee:</span>
+            <span id="cart-delivery-fee">₱50.00</span>
+          </div>
+
+          <div>
+            <label for="promo-code" class="block text-label font-medium text-neutral-foreground mb-2">Promo Code</label>
+            <div class="flex gap-2">
+              <input
+                type="text"
+                id="promo-code"
+                class="flex-1 px-4 py-2 border border-gray-300 rounded text-neutral-foreground"
+                placeholder="Enter code"
+              />
+              <button
+                onclick="applyPromo()"
+                class="px-4 py-2 rounded bg-secondary text-secondary-foreground font-normal text-label cursor-pointer border-none hover:bg-secondary"
+              >
+                Apply
+              </button>
+            </div>
+            <p id="promo-message" class="text-label mt-2"></p>
+          </div>
+
+          <div id="discount-section" class="hidden flex justify-between text-success">
+            <span>Discount:</span>
+            <span id="cart-discount">-₱0.00</span>
+          </div>
+
+          <div>
+            <label class="block text-label font-medium text-neutral-foreground mb-2">Delivery Schedule</label>
+            <div class="space-y-2">
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="schedule"
+                  value="asap"
+                  class="w-4 h-4"
+                  checked
+                />
+                <span class="text-neutral-foreground" id="asap-time">ASAP (20-30 min)</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="schedule"
+                  value="1-3hours"
+                  class="w-4 h-4"
+                />
+                <span class="text-neutral-foreground">1-3 hours from now</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="schedule"
+                  value="tomorrow"
+                  class="w-4 h-4"
+                />
+                <span class="text-neutral-foreground">Tomorrow morning (8-10 AM)</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label for="delivery-instructions" class="block text-label font-medium text-neutral-foreground mb-2">Delivery Instructions</label>
+            <textarea
+              id="delivery-instructions"
+              rows="2"
+              class="w-full px-4 py-2 border border-gray-300 rounded text-neutral-foreground"
+              placeholder="Special delivery instructions..."
+            ></textarea>
+          </div>
+
+          <div class="flex justify-between text-h3 font-bold text-neutral-foreground pt-4 border-t border-gray-200">
+            <span>Total:</span>
+            <span id="cart-total">₱50.00</span>
+          </div>
+
+          <div class="bg-tertiary text-tertiary-foreground rounded-lg p-3 text-center">
+            <p class="text-label">You'll earn <span id="points-to-earn" class="font-bold">0</span> loyalty points!</p>
+          </div>
+
+          <button
+            onclick="proceedToCheckout()"
+            class="w-full py-4 rounded bg-primary text-primary-foreground font-normal text-body cursor-pointer border-none hover:bg-primary-hover"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div
+      id="checkout-modal"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-8">
+          <div class="flex justify-between items-start mb-6">
+            <h3 class="text-h2 font-sans font-semibold text-neutral-foreground">Checkout</h3>
+            <button
+              onclick="closeCheckout()"
+              class="text-2xl text-gray-600 hover:text-neutral-foreground bg-transparent border-none cursor-pointer"
+            >
+              ×
+            </button>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <h4 class="font-semibold text-neutral-foreground mb-3">Order Summary</h4>
+              <div id="checkout-items" class="space-y-2 mb-4"></div>
+              <div class="space-y-2 text-neutral-foreground">
+                <div class="flex justify-between">
+                  <span>Subtotal:</span>
+                  <span id="checkout-subtotal">₱0.00</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Delivery Fee:</span>
+                  <span id="checkout-delivery">₱0.00</span>
+                </div>
+                <div id="checkout-discount-row" class="hidden flex justify-between text-success">
+                  <span>Discount:</span>
+                  <span id="checkout-discount">-₱0.00</span>
+                </div>
+                <div class="flex justify-between font-bold text-h3 pt-2 border-t border-gray-200">
+                  <span>Total:</span>
+                  <span id="checkout-total">₱0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-neutral-foreground mb-3">Payment Method</h4>
+              <div class="space-y-2">
+                <label class="flex items-center gap-3 cursor-pointer p-3 border border-gray-300 rounded hover:border-primary">
+                  <input type="radio" name="payment" value="cod" class="w-4 h-4" checked />
+                  <span class="text-neutral-foreground">💵 Cash on Delivery</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer p-3 border border-gray-300 rounded hover:border-primary">
+                  <input type="radio" name="payment" value="gcash" class="w-4 h-4" />
+                  <span class="text-neutral-foreground">📱 GCash</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer p-3 border border-gray-300 rounded hover:border-primary">
+                  <input type="radio" name="payment" value="card" class="w-4 h-4" />
+                  <span class="text-neutral-foreground">💳 Credit/Debit Card</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-neutral-foreground mb-3">Delivery Information</h4>
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-label text-gray-600 mb-1">Address</label>
+                  <p id="checkout-address" class="text-neutral-foreground"></p>
+                </div>
+                <div>
+                  <label class="block text-label text-gray-600 mb-1">Phone</label>
+                  <p id="checkout-phone" class="text-neutral-foreground"></p>
+                </div>
+                <div>
+                  <label class="block text-label text-gray-600 mb-1">Delivery Time</label>
+                  <p id="checkout-schedule" class="text-neutral-foreground"></p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onclick="placeOrder()"
+              class="w-full py-4 rounded bg-primary text-primary-foreground font-medium text-body cursor-pointer border-none hover:bg-primary-hover"
+            >
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div
+      id="toast"
+      class="hidden fixed bottom-24 lg:bottom-8 left-1/2 transform -translate-x-1/2 bg-success text-white px-6 py-3 rounded-lg shadow-lg z-50"
+    >
+      <p id="toast-message"></p>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
